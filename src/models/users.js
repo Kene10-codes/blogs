@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
@@ -25,6 +26,12 @@ const userSchema = new Schema({
     },
     isAdmin: Boolean,
 })
+
+// CREATE A SIGN TOKEN
+userSchema.methods.generateToken = function () {
+    const JWT_SECRET_KEY = process.env.JWT_PRIVATE_KEY
+    return jwt.sign({ _id: this._id }, JWT_SECRET_KEY)
+}
 
 // EXPORT USER MODULE
 const User = mongoose.model('User', userSchema)

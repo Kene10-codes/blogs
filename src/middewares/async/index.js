@@ -1,11 +1,11 @@
 const logger = require('../../services/log')()
 module.exports = function (handler) {
-    return async (req, res, next) => {
+    return async function (req, res, next) {
         try {
             await handler(req, res)
-        } catch (e) {
-            logger.error(e.message)
-            next(e)
+        } catch (ex) {
+            logger.error(ex.message)
+            next(ex)
         }
     }
 }

@@ -10,10 +10,12 @@ require('./services/routes')(app)
 const PORT = process.env.PORT || 3200
 
 // LISTEN TO APP
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     logger.info(`server is running on port ${PORT}`)
 })
 
 app.get('/blog', (req, res) => {
     res.redirect('/')
 })
+
+module.exports = server
