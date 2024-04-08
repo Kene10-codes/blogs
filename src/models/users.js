@@ -22,7 +22,7 @@ const userSchema = new Schema({
         type: String,
         minlength: 5,
         maxlength: 255,
-        required: true,
+        // required: true,
     },
     isAdmin: Boolean,
 })
@@ -36,4 +36,5 @@ userSchema.methods.generateToken = function () {
 // EXPORT USER MODULE
 const User = mongoose.model('User', userSchema)
 
-module.exports = User
+exports.userSchema = userSchema
+exports.User = User

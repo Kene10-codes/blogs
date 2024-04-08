@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const bcryptjs = require('bcryptjs')
-const User = require('../models/users')
+const { User } = require('../models/users')
 // const asyncMiddleWare = require('../middewares/async')
 const { validateUser, validateLoginUser } = require('../validator/validate')
 const logger = require('../services/log')()
