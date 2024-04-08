@@ -6,12 +6,13 @@ const {
     deleteBlog,
     postBlog,
 } = require('../controllers/blog')
+const auth = require('../middewares/jwt/auth')
 const router = express.Router()
 
 router.get('/', getBlogs)
 router.get('/:id', getBlog)
 router.put('/:id', updateBlog)
-router.delete('/:id', deleteBlog)
+router.delete('/:id', auth, deleteBlog)
 router.post('/post-blog', postBlog)
 
 module.exports = router

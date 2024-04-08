@@ -22,7 +22,7 @@ async function postBlog(req, res) {
     try {
         const { error } = validateBlog.validate(req.body)
         if (error) return res.status(500).send(error.details[0].message)
-        const user = await User.findById('661465ed543d33014077b9ca')
+        const user = await User.findById(req.body.userId)
         if (!user) return res.status(500).send('There is no user with the ID')
 
         const blog = new Blog({
@@ -80,7 +80,6 @@ async function updateBlog(req, res) {
 
 async function deleteBlog(req, res) {
     try {
-        const { id } = req.params
         const blog = await Blog.deleteOne({ _id: req.params.id })
         if (!blog) return res.status(500).send('Blog user does not exist')
         res.status(200).send('Blog deleted successfully')

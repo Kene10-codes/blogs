@@ -15,7 +15,7 @@ const validateLoginUser = Joi.object({
 
 // BLOG SCHEMA
 const validateBlog = Joi.object({
-    userId: Joi.string().required(),
+    userId: Joi.objectId().required(),
     title: Joi.string().min(5).max(155).required(),
     subTitle: Joi.string().min(5).max(255).required(),
     content: Joi.string().min(5).required(),
