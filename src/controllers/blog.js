@@ -9,7 +9,7 @@ async function getBlogs(req, res) {
     try {
         const blogs = await Blog.find()
         if (blogs.length === 0)
-            return res.status(500).send('No blog is available')
+            return res.status(400).send('No blog is available')
 
         res.status(200).send(blogs)
     } catch (ex) {
@@ -21,9 +21,9 @@ async function getBlogs(req, res) {
 async function postBlog(req, res) {
     try {
         const { error } = validateBlog.validate(req.body)
-        if (error) return res.status(500).send(error.details[0].message)
+        if (error) return res.status(400).send(error.details[0].message)
         const user = await User.findById(req.body.userId)
-        if (!user) return res.status(500).send('There is no user with the ID')
+        if (!user) return res.status(400).send('There is no user with the ID')
 
         const blog = new Blog({
             author: {
@@ -50,7 +50,7 @@ async function getBlog(req, res) {
         const { id } = req.params
         const blog = await Blog.findById(id)
         if (!blog)
-            return res.status(500).send('Blog was not fetched successfully')
+            return res.status(400).send('Blog was not fetched successfully')
         res.status(200).send(blog)
     } catch (ex) {
         logger.error(ex.message)
@@ -71,7 +71,7 @@ async function updateBlog(req, res) {
             },
             { new: true }
         )
-        if (!blog) return res.status(500).send('Blog user does not exist')
+        if (!blog) return res.status(400).send('Blog user does not exist')
         res.status(200).send(blog)
     } catch (ex) {
         logger.error(ex.message)

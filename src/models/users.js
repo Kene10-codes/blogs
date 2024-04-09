@@ -30,7 +30,10 @@ const userSchema = new Schema({
 // CREATE A SIGN TOKEN
 userSchema.methods.generateToken = function () {
     const JWT_SECRET_KEY = process.env.JWT_PRIVATE_KEY
-    return jwt.sign({ _id: this._id }, JWT_SECRET_KEY)
+    const maxAge = 3 * 60 * 60 * 60
+    return jwt.sign({ _id: this._id }, JWT_SECRET_KEY, {
+        expiresIn: maxAge,
+    })
 }
 
 // EXPORT USER MODULE
