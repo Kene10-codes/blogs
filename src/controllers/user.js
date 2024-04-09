@@ -32,7 +32,7 @@ async function registerUser(req, res) {
 
         await user.save()
         // SEND EMAIL
-        sendEmail(user.email)
+        sendEmail(user)
         const token = user.generateToken()
         res.header('x-auth-token', token).status(201).send(user)
     } catch (ex) {
