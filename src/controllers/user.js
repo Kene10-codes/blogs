@@ -4,6 +4,7 @@ const { User } = require('../models/users')
 // const asyncMiddleWare = require('../middewares/async')
 const { validateUser, validateLoginUser } = require('../validator/validate')
 const logger = require('../services/log')()
+const sendEmail = require('../services/email')
 
 async function getUsers(req, res) {
     try {
@@ -30,7 +31,8 @@ async function registerUser(req, res) {
         user.password = await bcryptjs.hash(user.password, salt)
 
         await user.save()
-
+        // SEND EMAIL
+        sendEmail(user.email)
         const token = user.generateToken()
         res.header('x-auth-token', token).status(201).send(user)
     } catch (ex) {
