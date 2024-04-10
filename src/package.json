@@ -7,8 +7,12 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "jest --watchAll --verbose",
-    "dev": "nodemon index.js"
+    "test": "jest --watchAll --verbose --coverage",
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "20.10.0"
   },
   "keywords": [],
   "author": "",
@@ -21,11 +25,12 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "config": "^3.3.11",
+    "compression": "^1.7.4",
     "crypto": "^1.0.1",
     "dotenv": "^16.4.5",
     "express-async-errors": "^3.1.1",
     "fawn": "^2.1.5",
+    "helmet": "^7.1.0",
     "joi": "^17.12.3",
     "joi-objectid": "^4.0.2",
     "jsonwebtoken": "^9.0.2",

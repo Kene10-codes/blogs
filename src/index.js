@@ -6,6 +6,7 @@ const logger = require('./services/log')()
 require('./services/validation')()
 require('./services/db')()
 require('./services/routes')(app)
+require('./middewares/production/prod')(app)
 
 const PORT = process.env.PORT || 3200
 

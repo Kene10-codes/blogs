@@ -15,17 +15,15 @@ async function passwordReset(req, res) {
 
         const user = await User.findOne({ email: req.body.email })
         if (!user) return res.status(400).send('Email is not in our database')
-        console.log(user)
-        const token = await Token.findOne({ userId: user._id })
 
-        if (!token) return res.status(400).send('Token is wrong!')
+        let token = await Token.findOne({ userId: user._id })
 
-        token = new Token({
-            userId: user._id,
-            token: crypto.randomBytes(32).toString('hex'),
-        })
-
-        await token.save()
+        if (!token) {
+            token = await new Token({
+                userId: user._id,
+                token: crypto.randomBytes(32).toString('hex'),
+            }).save()
+        }
 
         const link = `${process.env.BASE_URL}/password-reset/${user._id}/${token.token}`
         sendEmail(user.email, 'Password Reset', link)
