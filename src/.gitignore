@@ -1,4 +1,5 @@
 node_modules/
+coverage/
 logger.log
 error.log
 .env
