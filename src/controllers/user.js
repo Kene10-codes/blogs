@@ -40,7 +40,23 @@ async function registerUser(req, res) {
     }
 }
 
+// DELETE USER ACCOUNT
+async function deleteUser(req, res) {
+    try {
+        const { error } = validateUser.validate(req.body)
+        if (error) return res.status(400).send(error.details[0].message)
+
+        const userId = await User.findByIdAndDelete({ _id: req.params.id })
+        if (!userId) return res.status(400).send('User ID is not valid')
+
+        res.status(200).send('User deleted successfully'), userId
+    } catch (ex) {
+        logger.error(ex.message)
+    }
+}
+
 module.exports = {
-    registerUser,
     getUsers,
+    deleteUser,
+    registerUser,
 }

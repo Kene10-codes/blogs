@@ -1,14 +1,11 @@
 const request = require('supertest')
 const db = require('../../services/db')
-let server
+const server = require('../../index')
 
 describe('/api/user', () => {
-    beforeAll(() => {
-        server = require('../../index')
-        db()
+    beforeAll(async function () {
+        await db()
     })
-    afterAll(() => server.close())
-    // beforeAll(() => db())
     describe('GET /', () => {
         it('It should return all registered users', async () => {
             const res = await request(server).get('/api/user/get-users')

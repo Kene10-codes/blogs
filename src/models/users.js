@@ -22,7 +22,7 @@ const userSchema = new Schema({
         type: String,
         minlength: 5,
         maxlength: 255,
-        // required: true,
+        required: true,
     },
     isAdmin: Boolean,
 })
@@ -30,9 +30,8 @@ const userSchema = new Schema({
 // CREATE A SIGN TOKEN
 userSchema.methods.generateToken = function () {
     const JWT_SECRET_KEY = process.env.JWT_PRIVATE_KEY
-    const maxAge = 3 * 60 * 60 * 60
-    return jwt.sign({ _id: this._id }, JWT_SECRET_KEY, {
-        expiresIn: maxAge,
+    return jwt.sign({ _id: this._id, isAdmin: this.isAdmin }, JWT_SECRET_KEY, {
+        expiresIn: '1d',
     })
 }
 

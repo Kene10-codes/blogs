@@ -1,8 +1,8 @@
 const express = require('express')
 const userRoute = require('../routes/user')
 const blogRoute = require('../routes/blog')
-const passwordResetRoute = require('../routes/passwordReset')
 const error = require('../middewares/error/error')
+const passwordResetRoute = require('../routes/passwordReset')
 
 module.exports = function (app) {
     app.use(express.urlencoded({ extended: true }))
