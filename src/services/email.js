@@ -1,8 +1,8 @@
 const nodemailer = require('nodemailer')
 const logger = require('../services/log')()
 
-module.exports = function (user, subject, text) {
-    const { email, name } = user
+module.exports = function (user, subject, text, moreInfo) {
+    const { email } = user
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         secure: true,
@@ -17,20 +17,7 @@ module.exports = function (user, subject, text) {
         to: email,
         subject: subject,
         text: text,
-        html: `
-         <p>Dear ${name},</p>
-         <p>Welcome to our Blog! We are thrilled to have you as a new member of our community. </p>
-         <p>Your account has been successfully created, and you are now ready to explore all the features and 
-         benefits our platform has to offer.</p>
-
-        <p> If you have any questions or need assistance, feel free to reach out to our support team at blogcustomercare101@gmail.com. We're here to help you make the most out of your experience with our Blog.
-
-        Once again, welcome aboard, and thank you for joining us! </p>
-        
-        <p>Best regards,</p>
-        <p>Kenechukwu </p>
-        <p>CEO</p>
-        `,
+        html: moreInfo,
         // attachments: [
         //     {
         //         filename: 'image.png',

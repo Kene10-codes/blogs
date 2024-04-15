@@ -2,7 +2,10 @@ const _ = require('lodash')
 const Blog = require('../models/blog')
 const { User } = require('../models/users')
 const logger = require('../services/log')()
-const { validateBlog } = require('../validator/validate')
+const {
+    validateBlog,
+    validateUpdateBlog,
+} = require('../validator/blog/validate')
 
 // FETCH ALL BLOGS
 async function getBlogs(req, res) {
@@ -22,6 +25,7 @@ async function postBlog(req, res) {
     try {
         const { error } = validateBlog.validate(req.body)
         if (error) return res.status(400).send(error.details[0].message)
+
         const user = await User.findById(req.body.userId)
         if (!user) return res.status(400).send('There is no user with the ID')
 
@@ -30,6 +34,7 @@ async function postBlog(req, res) {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
+                password: user.password,
             },
             title: req.body.title,
             subTitle: req.body.subTitle,
@@ -59,6 +64,9 @@ async function getBlog(req, res) {
 
 // UPDATE BLOG
 async function updateBlog(req, res) {
+    const { error } = validateUpdateBlog.validate(req.body)
+    if (error) return res.status(400).send(error.details[0].message)
+
     const { id } = req.params
 
     try {

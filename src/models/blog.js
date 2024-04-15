@@ -4,9 +4,8 @@ const Schema = mongoose.Schema
 
 const blogSchema = new Schema(
     {
-        authorId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'user',
+        author: {
+            type: userSchema,
             required: true,
         },
         title: {

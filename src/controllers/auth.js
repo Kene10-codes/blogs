@@ -25,6 +25,16 @@ async function loginUser(req, res) {
     }
 }
 
+async function logoutUser(req, res) {
+    try {
+        const token = ''
+        req.header('x-auth-token', token)
+        res.status(200).send('User logged out successfully')
+    } catch (ex) {
+        logger.error(ex.message)
+    }
+}
 module.exports = {
     loginUser,
+    logoutUser,
 }

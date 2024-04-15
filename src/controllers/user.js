@@ -1,7 +1,7 @@
 const _ = require('lodash')
 const bcryptjs = require('bcryptjs')
 const { User } = require('../models/users')
-const { validateUser } = require('../validator/validate')
+const { validateUser } = require('../validator/user/validate')
 const logger = require('../services/log')()
 const sendEmail = require('../services/email')
 
@@ -33,7 +33,24 @@ async function registerUser(req, res) {
 
         await user.save()
         // SEND EMAIL
-        sendEmail(user, 'Welcome to our Blog - Your Account has been Created!')
+        sendEmail(
+            user,
+            'Welcome to our Blog - Your Account has been Created!',
+            `
+        <p>Dear ${user.name},</p>
+        <p>Welcome to our Blog! We are thrilled to have you as a new member of our community. </p>
+        <p>Your account has been successfully created, and you are now ready to explore all the features and 
+        benefits our platform has to offer.</p>
+
+       <p> If you have any questions or need assistance, feel free to reach out to our support team at blogcustomercare101@gmail.com. We're here to help you make the most out of your experience with our Blog.
+
+       Once again, welcome aboard, and thank you for joining us! </p>
+       
+       <p>Best regards,</p>
+       <span>Kenechukwu </span>
+       <p>CEO</p>
+       `
+        )
         const token = user.generateToken()
         res.header('x-auth-token', token).status(201).send(user)
     } catch (ex) {
