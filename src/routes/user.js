@@ -6,6 +6,6 @@ const router = express.Router()
 router.get('/get-users', getUsers)
 router.post('/register', registerUser)
 router.post('/login', loginUser)
-router.delete(':/id', deleteUser)
+router.delete('/:id', deleteUser)
 
 module.exports = router

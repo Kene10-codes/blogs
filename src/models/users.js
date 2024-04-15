@@ -24,7 +24,10 @@ const userSchema = new Schema({
         maxlength: 255,
         required: true,
     },
-    isAdmin: Boolean,
+    isAdmin: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 // CREATE A SIGN TOKEN

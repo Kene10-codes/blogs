@@ -1,8 +1,7 @@
 const _ = require('lodash')
 const bcryptjs = require('bcryptjs')
 const { User } = require('../models/users')
-// const asyncMiddleWare = require('../middewares/async')
-const { validateUser, validateLoginUser } = require('../validator/validate')
+const { validateUser } = require('../validator/validate')
 const logger = require('../services/log')()
 const sendEmail = require('../services/email')
 
@@ -26,7 +25,9 @@ async function registerUser(req, res) {
         const userExists = await User.findOne({ email: req.body.email })
         if (userExists) return res.status(400).send('Email exists already!')
 
-        const user = new User(_.pick(req.body, ['name', 'email', 'password']))
+        const user = new User(
+            _.pick(req.body, ['name', 'email', 'password', 'isAdmin'])
+        )
         const salt = await bcryptjs.genSalt(10)
         user.password = await bcryptjs.hash(user.password, salt)
 
@@ -43,9 +44,6 @@ async function registerUser(req, res) {
 // DELETE USER ACCOUNT
 async function deleteUser(req, res) {
     try {
-        const { error } = validateUser.validate(req.body)
-        if (error) return res.status(400).send(error.details[0].message)
-
         const userId = await User.findByIdAndDelete({ _id: req.params.id })
         if (!userId) return res.status(400).send('User ID is not valid')
 

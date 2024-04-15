@@ -1,5 +1,5 @@
 const bcryptjs = require('bcryptjs')
-const User = require('../models/users')
+const { User } = require('../models/users')
 const logger = require('../services/log')()
 const { validateLoginUser } = require('../validator/validate')
 
@@ -16,6 +16,7 @@ async function loginUser(req, res) {
         if (!isValid) return res.status(400).send('Password is incorrect')
 
         const token = user.generateToken()
+
         res.header('x-auth-token', token)
             .status(201)
             .send('User successfully logged in')
