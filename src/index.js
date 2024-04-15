@@ -12,7 +12,7 @@ require('./middewares/production/prod')(app)
 // LISTEN TO APP
 let server
 if (process.env.NODE_ENV !== 'test') {
-    screenYerver = app.listen(PORT, () => {
+    server = app.listen(PORT, () => {
         logger.info(`server is running on port ${PORT}`)
     })
 }
