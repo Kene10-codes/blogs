@@ -52,6 +52,22 @@ async function passwordNewReset(req, res) {
         await user.save()
         await Token.findByIdAndDelete({ _id: token._id })
 
+        sendEmail(
+            user,
+            'Password was successfully changed',
+            '',
+            `<p>Dear ${user.name},</p>
+            <p>Welcome to our Blog! We are thrilled to have you as a new member of our community. </p>
+            <p>You have successfully changed your password</p>
+    
+           <p> If you have any questions or need assistance, feel free to reach out to our support team at blogcustomercare101@gmail.com. We're here to help you make the most out of your experience with our Blog.
+    
+           Once again, welcome aboard, and thank you for joining us! </p>
+           
+           <p>Best regards,</p>
+           <span>Kenechukwu </span>
+           <p>CEO</p>`
+        )
         res.status(200).send('Password reset was successful')
     } catch (ex) {
         logger.error(ex.message)
