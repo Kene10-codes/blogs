@@ -4,7 +4,7 @@ const { User } = require('../models/users')
 const {
     validatePasswordReset,
     validateNewPassword,
-} = require('../validator/validate')
+} = require('../validator/user/validate')
 const logger = require('../services/log')()
 const sendEmail = require('../services/email')
 
@@ -26,7 +26,7 @@ async function passwordReset(req, res) {
         }
 
         const link = `${process.env.BASE_URL}/password-reset/${user._id}/${token.token}`
-        sendEmail(user.email, 'Password Reset', link)
+        sendEmail(user, 'Password Reset', '', link)
     } catch (ex) {
         logger.error(ex.message)
     }
@@ -50,7 +50,7 @@ async function passwordNewReset(req, res) {
         user.password = req.body.password
 
         await user.save()
-        await token.delete()
+        await Token.findByIdAndDelete({ _id: token._id })
 
         res.status(200).send('Password reset was successful')
     } catch (ex) {
