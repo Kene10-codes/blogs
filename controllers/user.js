@@ -31,7 +31,7 @@ async function registerUser(req, res) {
     user.password = await hashPassword(user.password);
 
     await user.save();
-  
+
     // SEND EMAIL
 
     sendEmail(
@@ -53,9 +53,7 @@ async function registerUser(req, res) {
        `
     );
     const token = user.generateToken();
-    res.header("x-auth-token", token);
-    res.status(201);
-    res.send(user);
+    res.header("x-auth-token", token).status(201).send(user);
   } catch (ex) {
     logger.error(ex.message);
   }

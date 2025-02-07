@@ -5,6 +5,7 @@ const validateUser = Joi.object({
     name: Joi.string().min(5).max(255).required(),
     email: Joi.string().min(5).max(255).email().required(),
     password: Joi.string().min(5).max(255).required(),
+    isAdmin: Joi.boolean().required(),
 })
 
 // USER LOGIN VALIDATOR

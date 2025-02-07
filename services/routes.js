@@ -9,6 +9,6 @@ module.exports = function (app) {
     app.use(express.json({ limit: '10MB' }))
     app.use('/api/v1/user', userRoute)
     app.use('/api/v1/blog', blogRoute)
-    app.use('/api/v1/password-reset', passwordResetRoute)
+    app.use('/api/v1/user/password-reset', passwordResetRoute)
     app.use(error)
 }

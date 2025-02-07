@@ -1,6 +1,6 @@
 const crypto = require('crypto')
 const { Token } = require('../models/token')
-const { User } = require('../models/users')
+const  User  = require('../models/users')
 const {
     validatePasswordReset,
     validateNewPassword,
