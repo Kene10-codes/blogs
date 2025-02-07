@@ -10,10 +10,25 @@ const {
 // FETCH ALL BLOGS
 async function getBlogs(req, res) {
   try {
-    const blogs = await Blog.find();
+    const perPage = 10;
+    const page = req.query.page || 1;
+    const skip = perPage * page - perPage;
+
+    const blogs = await Blog.aggregate({ $sort: { createdAt: -1 } })
+      .skip(skip)
+      .limit(perPage)
+      .exec();
+
+    const count = await Blog.countDocuments()
+    const nextPage = parseInt(page) + 1;
+    console.log("next page", nextPage)
+    const hasNextPage = nextPage <= Math.ceil(count / perPage);
+
     if (blogs.length === 0) return res.status(400).send("No blog is available");
 
-    res.status(200).send(blogs);
+    res
+      .status(200)
+      .send({ blogs, current: page, nextPage: hasNextPage ? nextPage : null });
   } catch (ex) {
     logger.error(ex.message);
   }
@@ -27,11 +42,7 @@ async function postBlog(req, res) {
     const user = await User.findById(req.user._id);
     if (!user) return res.status(400).send("There is no user with the ID");
     const blog = new Blog({
-      author: {
-        _id: user._id,
-        name: user.name,
-        email: user.email
-      },
+      author: user._id,
       title: req.body.title,
       subTitle: req.body.subTitle,
       content: req.body.content,

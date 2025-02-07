@@ -13,7 +13,7 @@ const validateObjectId = require('../middewares/objectId/validateObjectId')
 
 const router = express.Router()
 
-router.get('/', getBlogs)
+router.get('', getBlogs)
 router.get('/:id', getBlog)
 router.put('/:id', [auth, authAdmin], updateBlog)
 router.post('/post-blog', [auth, authAdmin], postBlog)

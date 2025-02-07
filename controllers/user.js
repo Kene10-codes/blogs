@@ -18,9 +18,10 @@ async function getUsers(req, res) {
 
 // REGISTER USER
 async function registerUser(req, res) {
-  const { error } = validateUser.validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  console.log("hi")
   try {
+    const { error } = validateUser.validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
     const userExists = await User.findOne({ email: req.body.email });
     if (userExists) return res.status(401).send("Email exists already!");
 

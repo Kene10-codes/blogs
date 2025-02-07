@@ -5,7 +5,7 @@ const User = require('./users')
 const blogSchema = new Schema(
     {
         author: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'User',
             required: true,
         },
