@@ -1,5 +1,5 @@
 const _ = require("lodash");
-const  User  = require("../models/users");
+const User = require("../models/users");
 const { validateUser } = require("../validator/user/validate");
 const logger = require("../services/log")();
 const sendEmail = require("../services/email");
@@ -18,10 +18,9 @@ async function getUsers(req, res) {
 
 // REGISTER USER
 async function registerUser(req, res) {
+  const { error } = validateUser.validate(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
   try {
-    const { error } = validateUser.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
     const userExists = await User.findOne({ email: req.body.email });
     if (userExists) return res.status(401).send("Email exists already!");
 
@@ -32,7 +31,7 @@ async function registerUser(req, res) {
     user.password = await hashPassword(user.password);
 
     await user.save();
-    console.log("save")
+  
     // SEND EMAIL
     // sendEmail(
     //   user,
@@ -40,21 +39,21 @@ async function registerUser(req, res) {
     //   `
     //     <p>Dear ${user.name},</p>
     //     <p>Welcome to our Blog! We are thrilled to have you as a new member of our community. </p>
-    //     <p>Your account has been successfully created, and you are now ready to explore all the features and 
+    //     <p>Your account has been successfully created, and you are now ready to explore all the features and
     //     benefits our platform has to offer.</p>
 
     //    <p> If you have any questions or need assistance, feel free to reach out to our support team at blogcustomercare101@gmail.com. We're here to help you make the most out of your experience with our Blog.
 
     //    Once again, welcome aboard, and thank you for joining us! </p>
-       
+
     //    <p>Best regards,</p>
     //    <span>Kenechukwu </span>
     //    <p>CEO</p>
     //    `
     // );
     const token = user.generateToken();
-    res.header("x-auth-token", token)
-    res.status(201)
+    res.header("x-auth-token", token);
+    res.status(201);
     res.send(user);
   } catch (ex) {
     logger.error(ex.message);
