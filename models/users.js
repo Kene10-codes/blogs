@@ -40,6 +40,4 @@ userSchema.methods.generateToken = function () {
 
 // EXPORT USER MODULE
 const User = mongoose.model('User', userSchema)
-
-exports.userSchema = userSchema
-exports.User = User
+module.exports = User

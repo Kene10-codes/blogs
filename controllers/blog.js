@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const Blog = require('../models/blog')
-const { User } = require('../models/users')
+const  User  = require('../models/users')
 const logger = require('../services/log')()
 const {
     validateBlog,
