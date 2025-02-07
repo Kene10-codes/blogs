@@ -1,22 +1,22 @@
 const nodemailer = require('nodemailer')
 const logger = require('../services/log')()
 
-module.exports = function (user, subject, text, moreInfo) {
+module.exports = function (user, subject, moreInfo) {
     const { email } = user
     const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        secure: true,
+        host: process.env.SMTP_HOST, // Example SMTP server
+        port: process.env.SMTP_PORT,
         auth: {
-            user: process.env.EMAIL,
-            pass: process.env.EMAIL_PASSWORD,
-        },
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS,
+        }
     })
 
     const mailOptions = {
-        from: process.env.EMAIL,
+        from: process.env.SMTP_EMAIL,
         to: email,
         subject: subject,
-        text: text,
+        // text: text,
         html: moreInfo,
         // attachments: [
         //     {

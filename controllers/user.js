@@ -24,7 +24,7 @@ async function registerUser(req, res) {
     const userExists = await User.findOne({ email: req.body.email });
     if (userExists) return res.status(401).send("Email exists already!");
 
-    const user = new User(
+    let user = new User(
       _.pick(req.body, ["name", "email", "password", "isAdmin"])
     );
     // hash password func
@@ -33,24 +33,25 @@ async function registerUser(req, res) {
     await user.save();
   
     // SEND EMAIL
-    // sendEmail(
-    //   user,
-    //   "Welcome to our Blog - Your Account has been Created!",
-    //   `
-    //     <p>Dear ${user.name},</p>
-    //     <p>Welcome to our Blog! We are thrilled to have you as a new member of our community. </p>
-    //     <p>Your account has been successfully created, and you are now ready to explore all the features and
-    //     benefits our platform has to offer.</p>
 
-    //    <p> If you have any questions or need assistance, feel free to reach out to our support team at blogcustomercare101@gmail.com. We're here to help you make the most out of your experience with our Blog.
+    sendEmail(
+      user,
+      "Welcome to our Blog - Your Account has been Created!",
+      `
+        <p>Dear ${user.name},</p>
+        <p>Welcome to our Blog! We are thrilled to have you as a new member of our community. </p>
+        <p>Your account has been successfully created, and you are now ready to explore all the features and
+        benefits our platform has to offer.</p>
 
-    //    Once again, welcome aboard, and thank you for joining us! </p>
+       <p> If you have any questions or need assistance, feel free to reach out to our support team at blogcustomercare101@gmail.com. We're here to help you make the most out of your experience with our Blog.
 
-    //    <p>Best regards,</p>
-    //    <span>Kenechukwu </span>
-    //    <p>CEO</p>
-    //    `
-    // );
+       Once again, welcome aboard, and thank you for joining us! </p>
+
+       <p>Best regards,</p>
+       <span>Kenechukwu </span>
+       <p>CEO</p>
+       `
+    );
     const token = user.generateToken();
     res.header("x-auth-token", token);
     res.status(201);
