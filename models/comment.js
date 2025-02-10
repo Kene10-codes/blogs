@@ -4,7 +4,7 @@ const Blog = require("./blog");
 
 const commentSchema = new Schema(
   {
-    blog: {
+    blogId: {
       type: Schema.Types.ObjectId,
       ref: "Blog",
       required: true,
